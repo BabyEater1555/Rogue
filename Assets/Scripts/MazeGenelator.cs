@@ -6,12 +6,16 @@ using Random = UnityEngine.Random;
 
 public class MazeGenelator : MonoBehaviour
 {
-    // 横（X軸）のオブジェクト量
-    public int horizontal = 15;
-    // 縦（Y軸）のオブジェクト量
-    public int vertical = 15;
+    // 横（X軸）のオブジェクト量(3以上)
+    const int MAX_HORIZONTAL = 10;
+    // 縦（Y軸）のオブジェクト量(3以上)
+    const int MAX_VERTICAL = 10;
     // 起点値
-    public int basePoint = 1;
+    const int BASE_POINT = 1;
+    // 横（X軸）のオブジェクト用変数
+    private int horizontal = MAX_HORIZONTAL;
+    // 縦（Y軸）のオブジェクト用変数
+    private int vertical = MAX_VERTICAL;
 
     // プレハブ格納用
     public GameObject cube;
@@ -69,25 +73,25 @@ public class MazeGenelator : MonoBehaviour
     private Vector2 DecidePoint()
     {
         // ランダムな外周位置（四隅を除く）の決定
-        int pointHorizontal = Random.Range(basePoint, horizontal + 1);
-        int pointVertical = 0;
-        switch (pointHorizontal)
+        int pointVertical = Random.Range(BASE_POINT, vertical + 1);
+        int pointHorizontal;
+        switch (pointVertical)
         {
-            case 1:
-                pointVertical = Random.Range(basePoint + 1, vertical);
+            case BASE_POINT:
+                pointHorizontal = Random.Range(BASE_POINT + 1, horizontal);
                 break;
-            case 15:
-                pointVertical = Random.Range(basePoint + 1, vertical);
+            case MAX_VERTICAL:
+                pointHorizontal = Random.Range(BASE_POINT + 1, horizontal);
                 break;
             default:
                 int val = Random.Range(0, 2);
                 if (val == 0)
                 {
-                    pointVertical = basePoint;
+                    pointHorizontal = BASE_POINT;
                 }
                 else
                 {
-                    pointVertical = vertical;
+                    pointHorizontal = horizontal;
                 }
                 break;
         }
